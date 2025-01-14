@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 from .model_loaders import load_keras_model, load_pipeline
 from .models import InputData
@@ -12,6 +12,14 @@ warnings.filterwarnings("ignore", category=FutureWarning, module="sklearn.utils.
 
 # Inicializar la aplicación
 app = FastAPI()
+# Habilitar CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Permitir todas las orígenes, puedes especificar dominios específicos
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos HTTP
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
 
 # Ruta de los modelos
 MODEL_PATH = "./models/best_model2.h5"
