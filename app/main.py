@@ -122,10 +122,11 @@ async def predict(data: InputData):
 
         prediction = model.predict(X_selected)
         predicted_class = np.argmax(prediction, axis=1)
-        
         predicted_label = class_labels[predicted_class[0]]
-        print(predicted_label)
-        return {"prediction": predicted_label}
+        
+        probabilities = {class_labels[i]: float(prediction[0][i]) for i in range(len(class_labels))}
+        
+        return {"prediction": predicted_label, "probabilities": probabilities}
 
     except Exception as e:
         print(e)
